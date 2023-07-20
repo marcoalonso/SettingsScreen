@@ -13,6 +13,7 @@ struct ContentView: View {
     let phoneNumber = "4432282860"
     private let mailComposeDelegate = MailDelegate()
     private let messageComposeDelegate = MessageDelegate()
+    @AppStorage("isDarkModeOn") private var isDarkModeOn = false
     
     var body: some View {
         NavigationView {
@@ -50,17 +51,78 @@ struct ContentView: View {
                                 Text("Enviar mensaje texto")
                             }
                         }
-
-
                         
+                        ///Sugerencia
+                        Link(destination: URL(string: "https://forms.gle/guA95kfHXphQHgbx5")!) {
+                            HStack {
+                                Image(systemName: "pencil")
+                                Text("Hacer una sugerencia")
+                            }
+                        }
+                        
+                        ///WhatsApp
+                        Button {
+                            openWhatsApp()
+                        } label: {
+                            HStack {
+                                Image(systemName: "phone.bubble.left")
+                                Text("Enviar WhatsApp")
+                            }
+                        }
                     } header: {
                         Text("Contacto")
                     }
 
-
-                }
+                    // MARK:  Informacion
+                    Section(header: Text("Información")) {
+                        Link(destination: URL(string: "https://github.com/marcoalonso")!) {
+                            HStack {
+                                Image(systemName: "person")
+                                Text("Desarrollador")
+                            }
+                        }
+                        
+                        Link(destination: URL(string: "https://www.youtube.com/@marcoalonso3284")!) {
+                            HStack {
+                                Image(systemName: "play.display")
+                                Text("YouTube Channel")
+                            }
+                        }
+                        ///iOS Bootcamp Mx
+                        ///
+                        Link(destination: URL(string: "https://mx.linkedin.com/company/ios-bootcamp-mx?trk=public_post_reshare_feed-actor-name")!) {
+                            HStack {
+                                Image(systemName: "apps.iphone")
+                                Text("iOS Bootcamp Mx - LinkedIn")
+                            }
+                        }
+                        
+                        Link(destination: URL(string: "https://www.facebook.com/people/IOS-Bootcamp-Mx/100090332195526/")!) {
+                            HStack {
+                                Image(systemName: "apps.iphone")
+                                Text("iOS Bootcamp Mx - Facebook")
+                            }
+                        }
+                    }//Section
+                    
+                    Section(header: Text("Apariencia"), footer: Text("Opciones de configuracion")) {
+                        Toggle(isOn: $isDarkModeOn) {
+                            Text("Dark Mode")
+                        }
+                    }
+                    
+                }//: Form
             }
             .navigationTitle("Settings")
+        }
+    }
+    
+    func openWhatsApp(){
+        let whatsappUrl = URL(string: "https://api.whatsapp.com/send?phone=4432282860&text=Hola")!
+        if UIApplication.shared.canOpenURL(whatsappUrl) {
+            UIApplication.shared.open(whatsappUrl)
+        } else {
+            print("No tiene la app WhatsApp instalada ")
         }
     }
 }
